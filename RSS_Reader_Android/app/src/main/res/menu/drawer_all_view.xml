@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Urls">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/list_url"
+                        android:title="Liste" />
+                    <item
+                        android:id="@+id/add_url"
+                        android:title="Ajouter" />
+                </group>
+            </menu>
+        </item>
+        <item android:title="Articles">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/list_article"
+                        android:title="Liste" />
+                    <item
+                        android:id="@+id/favoris_article"
+                        android:title="Favoris" />
+                </group>
+            </menu>
+        </item>
+    </group>
+</menu>
