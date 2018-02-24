@@ -19,8 +19,8 @@ import javafx.stage.Stage;
  * @author Boutet
  */
 public class MTH_RSSReader extends Application {
-    Parent root;
-    Scene scene;
+    private Parent root;
+    private Scene scene;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -28,8 +28,8 @@ public class MTH_RSSReader extends Application {
                 root = FXMLLoader.load(getClass().getResource("Login.fxml"));
                 scene = new Scene(root);
                 stage.setScene(scene);
+                stage.setTitle("RSS Reader FTW !");
                 stage.show();
-                //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
             } catch (IOException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }

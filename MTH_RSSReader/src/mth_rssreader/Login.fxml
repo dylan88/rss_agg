@@ -13,10 +13,10 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-        <Button layoutX="224.0" layoutY="248.0" text="Confirm" fx:id="signin_ok_btn"/>
+        <Button layoutX="224.0" layoutY="248.0" text="Confirm" onAction="#Authenticate"/>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <PasswordField alignment="CENTER" layoutX="256.0" layoutY="175.0" promptText="password" />
-      <TextField alignment="CENTER" layoutX="256.0" layoutY="137.0" promptText="mail" />
-      <Button layoutX="324.0" layoutY="248.0" mnemonicParsing="false" onAction="#Go_to_signup" text="Don't have an account yet ?" fx:id="signup_page_btn" />
+      <PasswordField alignment="CENTER" layoutX="256.0" layoutY="175.0" promptText="password" fx:id="si_pwd"/>
+      <TextField alignment="CENTER" layoutX="256.0" layoutY="137.0" promptText="mail" fx:id="si_mail"/>
+      <Button layoutX="324.0" layoutY="248.0" mnemonicParsing="false" onAction="#Go_to_signup" text="Don't have an account yet ?"/>
     </children>
 </AnchorPane>

@@ -11,16 +11,15 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 /**
  *
@@ -31,56 +30,48 @@ public class LoginController implements Initializable {
     @FXML
     private Label label;
     @FXML
-    private Button signin_ok_btn, signup_ok_btn, signin_page_btn, signup_page_btn;
-    @FXML
+    private TextField su_mail, su_id, su_pwd, si_mail, si_pwd;
+    private String mail, id, pwd;
     Parent root;
+    Scene scene;
+    private Stage mainstage;
     
-    private void login_main() {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-        /*signin_ok_btn.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-        //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
-    };
-        });
+    @FXML
+    public void Register(ActionEvent event){
+        mail = su_mail.getText();
+        pwd = su_pwd.getText();
+        id = su_id.getText();
+        //pseudo, mail, password à ajouter à bdd
+        //if (register(id, password, mail) == true)
+        label.setText("Registration Successful!");
+        Go_to_signin(event);
+        //else
+        //label.setText("Incorrect informations, please try again");
+    }
     
-        
-        signup_ok_btn.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-        //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
-    };
-        });
+    @FXML
+    public void Authenticate(ActionEvent event){
+        //envoyer mail et pwd, 
+        mail = si_mail.getText();
+        pwd = si_pwd.getText();
+        /*if (mail == ok && pwd == ok)
+            Go_to_feeds();
+        else
+        {
+            label.setText("Sorry, we couldn't identify you. Please register or try again.");
+            Go_to_signin();
+        */
+    }
     
-        signin_page_btn.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-        //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
-    };
-        });
-    
-        signup_page_btn.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("Signup.fxml"));
-                    //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
-                } catch (IOException ex) {
-                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-    };
-        });*/
-};
     @FXML
     public void Go_to_signup(ActionEvent event){
         System.out.println("wesh");
            try {
                 root = FXMLLoader.load(getClass().getResource("Signup.fxml"));
-                Scene scene = new Scene(root);
-                Window win = getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                scene = new Scene(root);
+                mainstage = (Stage)  ((Node)event.getSource()).getScene().getWindow();
+                mainstage.setScene(scene);
+                mainstage.show();
                 //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
             } catch (IOException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,16 +79,18 @@ public class LoginController implements Initializable {
     }
     
     @FXML
-    public void Go_to_signin(){
+    public void Go_to_signin(ActionEvent event){
         System.out.println("bien ?");
-        /*        try {
-                Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));6
-        .
-        
-                //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
-            } catch (IOException ex) { 
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+        try {
+            root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            scene = new Scene(root);
+            mainstage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            mainstage.setScene(scene);
+            mainstage.show();
+            //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     //@Override
     @Override

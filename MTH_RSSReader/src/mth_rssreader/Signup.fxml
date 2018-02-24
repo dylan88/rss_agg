@@ -13,10 +13,11 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-        <Button id="signup_ok_btn" fx:id="button" layoutX="224.0" layoutY="248.0" text="Confirm" />
+        <Button id="signup_ok_btn" layoutX="224.0" layoutY="248.0" text="Confirm" onAction="#Register"/>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <PasswordField fx:id="pwd" alignment="CENTER" layoutX="256.0" layoutY="175.0" promptText="password" />
-      <TextField fx:id="mail" alignment="CENTER" layoutX="256.0" layoutY="137.0" promptText="mail" />
-      <Button id="signin_page_btn" fx:id="signup" layoutX="324.0" layoutY="248.0" mnemonicParsing="false" onAction="Go_to_signin()" text="Already have an account ?" textAlignment="RIGHT" />
+      <PasswordField alignment="CENTER" layoutX="256.0" layoutY="175.0" promptText="password" fx:id="su_pwd"/>
+      <TextField alignment="CENTER" layoutX="256.0" layoutY="137.0" promptText="mail" fx:id="su_mail"/>
+      <Button id="signin_page_btn" layoutX="324.0" layoutY="248.0" mnemonicParsing="false" onAction="#Go_to_signin" text="Already have an account ?" textAlignment="RIGHT" />
+      <TextField alignment="CENTER" layoutX="256.0" layoutY="95.0" promptText="Id" fx:id="su_id" />
     </children>
 </AnchorPane>
