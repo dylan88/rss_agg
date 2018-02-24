@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.wautel_l.rss_reader_android.GetMethodDemo;
 import com.example.wautel_l.rss_reader_android.LocalService;
 import com.example.wautel_l.rss_reader_android.R;
 import com.example.wautel_l.rss_reader_android.obj.Item;
@@ -85,18 +86,18 @@ public class list_favoris extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list_favoris, container, false);
         lv = (ListView) view.findViewById(R.id.listView);
-        intent = new Intent(getActivity(), LocalService.class);
+   /*     intent = new Intent(getActivity(), LocalService.class);
         getActivity().getApplicationContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
-            public void run() {
+            public void run() {*/
                 store_article();
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, art_string_list);
                 lv.setAdapter(adapter);
-            }
-        }, 1000);
+         /*   }
+        }, 1000);*/
 
         return  view;
     }
@@ -126,8 +127,10 @@ public class list_favoris extends Fragment {
         ip = this.getArguments().getString("ip");
         id_client = this.getArguments().getInt("id_client");
         try {
-            mService.connect(ip, "5000");
-            String url_tmp = mService.do_action("favlist_" + id_client);
+                GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.seturl(ip + "/favoris?user_id="+id_client);
+                String url_tmp = getMethodDemo.execute().get();
+           // String url_tmp = mService.do_action("favlist_" + id_client);
             JSONArray listArray = new JSONArray(url_tmp);
 
             JSONObject oneObject;

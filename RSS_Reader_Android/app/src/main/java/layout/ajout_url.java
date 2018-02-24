@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.wautel_l.rss_reader_android.Activity_all;
+import com.example.wautel_l.rss_reader_android.GetMethodDemo;
 import com.example.wautel_l.rss_reader_android.LocalService;
 import com.example.wautel_l.rss_reader_android.LoginActivity;
 import com.example.wautel_l.rss_reader_android.R;
@@ -96,16 +97,16 @@ public class ajout_url extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LocalService.class);
+              /*  Intent intent = new Intent(getActivity(), LocalService.class);
                 getActivity().getApplicationContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
 
                     @Override
-                    public void run() {
+                    public void run() {*/
                         ajout_url();
-                    }
-                }, 1000);
+                 /*   }
+                }, 1000);*/
 
             }
         });
@@ -114,10 +115,14 @@ public class ajout_url extends Fragment {
 
     public void ajout_url()
     {
-        if (mBound) {
-            mService.connect(ip, "5000");
-            String response = mService.do_action("add_" + id_client + "_" + uri.getText().toString());
-            Log.e("response", response + "tr");
+     //   if (mBound) {
+        try {
+        GetMethodDemo getMethodDemo = new GetMethodDemo();
+        getMethodDemo.seturl(ip + "/add?user_id="+id_client+"&url="+uri.getText().toString());
+        String response = getMethodDemo.execute().get();
+        //    mService.connect(ip, "5000");
+         //   String response = mService.do_action("add_" + id_client + "_" + uri.getText().toString());
+           // Log.e("response", response + "tr");
             if (response.contains("true")) {
                 Toast popup = Toast.makeText(view.getContext(), "Ajout effectué avec succés", Toast.LENGTH_LONG);
                 popup.show();
@@ -127,6 +132,10 @@ public class ajout_url extends Fragment {
                 Toast popup = Toast.makeText(view.getContext(), "Erreur durant le processus d'ajout", Toast.LENGTH_LONG);
                 popup.show();
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 

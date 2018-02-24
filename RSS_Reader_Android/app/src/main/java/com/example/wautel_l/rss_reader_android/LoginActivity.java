@@ -179,11 +179,11 @@ public class LoginActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-           //< access_next("43");
+            //< access_next("43");
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-          //  showProgress(true);
-            Log.e("step", "first" );
+            //  showProgress(true);
+        /*    Log.e("step", "first" );
             Intent intent = new Intent(LoginActivity.this, LocalService.class);
             Log.e("step", "second" );
             getApplicationContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
@@ -199,7 +199,15 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 }
-            }, 1000);
+            }, 1000);*/
+            try {
+                GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.seturl(ip + "/login?name=" + email + "&pwd=" + sha1Hash(password));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -263,28 +271,38 @@ public class LoginActivity extends AppCompatActivity {
             // perform the user login attempt.
             //  showProgress(true);
 
-            Intent intent = new Intent(LoginActivity.this, LocalService.class);
-            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mBound) {
-                        mService.connect(ip, "5000");
-                        String response = mService.do_action("register_" + email + "_" + sha1Hash(password));
-                        if (!response.isEmpty() && !response.equals("-1")) {
-                            Integer id_client = Integer.parseInt(recupValidNumber(response));
-                            Intent intent = new Intent(LoginActivity.this, Activity_all.class);
-                            intent.putExtra("ip", ip);
-                            intent.putExtra("id_client", id_client);
-                            startActivity(intent);
-                        } else {
-                            Toast popup = Toast.makeText(view.getContext(), "Error dans le login ou le mot de passe", Toast.LENGTH_LONG);
-                            popup.show();
-                        }
-                    }
+       //     Intent intent = new Intent(LoginActivity.this, LocalService.class);
+       //     bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+     //       Handler handler = new Handler();
+          //  handler.postDelayed(new Runnable() {
+               // @Override
+          //      public void run() {
+                 //   if (mBound) {
+                      //  mService.connect(ip, "5000");
+                     GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.seturl(ip + "/register?name="+email+"&pwd="+sha1Hash(password));
+              //  getMethodDemo.setArg("name="+email+);
+
+            try {
+                String response = getMethodDemo.execute().get();
+                if (!response.isEmpty() && !response.equals("-1")) {
+                    Integer id_client = Integer.parseInt(recupValidNumber(response));
+                    Intent intent = new Intent(LoginActivity.this, Activity_all.class);
+                    intent.putExtra("ip", ip);
+                    intent.putExtra("id_client", id_client);
+                    startActivity(intent);
+                } else {
+                    Toast popup = Toast.makeText(view.getContext(), "Error dans le login ou le mot de passe", Toast.LENGTH_LONG);
+                    popup.show();
                 }
-            }, 1000);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+              //      }
+            //    }
+          //  }, 1000);
         }
     }
 
