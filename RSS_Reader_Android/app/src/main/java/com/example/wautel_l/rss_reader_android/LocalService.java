@@ -98,7 +98,6 @@ public class LocalService extends Service {
         test = false;
           new MyCo().execute(action);
         while (response == null);
-        Log.e("re", response);
         parse_display(action);
         return response;
     }
@@ -182,12 +181,10 @@ public class LocalService extends Service {
                         socket.setSoTimeout(5000);
                     }
 
-                    Log.e("socket", socket.toString());
                     cmd = params[0];
                      out.println(params[0]);
                     while (!in.ready()) ;
                     response = readBuffer();
-                    Log.e("response", response);
 
 
                 }

@@ -37,6 +37,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -251,7 +254,6 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        Log.e("cancel", Boolean.toString(cancel));
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -269,8 +271,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void run() {
                     if (mBound) {
                         mService.connect(ip, "5000");
-                        String response = mService.do_action("register_" + email + "_" + password);
-                        Log.e("response", response);
+                        String response = mService.do_action("register_" + email + "_" + sha1Hash(password));
                         if (!response.isEmpty() && !response.equals("-1")) {
                             Integer id_client = Integer.parseInt(recupValidNumber(response));
                             Intent intent = new Intent(LoginActivity.this, Activity_all.class);
@@ -343,6 +344,44 @@ public class LoginActivity extends AppCompatActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
+
+    String sha1Hash( String toHash )
+    {
+        String hash = null;
+        try
+        {
+            MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
+            byte[] bytes = toHash.getBytes("UTF-8");
+            digest.update(bytes, 0, bytes.length);
+            bytes = digest.digest();
+
+            // This is ~55x faster than looping and String.formating()
+            hash = bytesToHex( bytes );
+        }
+        catch( NoSuchAlgorithmException e )
+        {
+            e.printStackTrace();
+        }
+        catch( UnsupportedEncodingException e )
+        {
+            e.printStackTrace();
+        }
+        return hash;
+    }
+
+    // http://.com/questions/9655181/convert-from-byte-array-to-hex-string-in-java
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    public static String bytesToHex( byte[] bytes )
+    {
+        char[] hexChars = new char[ bytes.length * 2 ];
+        for( int j = 0; j < bytes.length; j++ )
+        {
+            int v = bytes[ j ] & 0xFF;
+            hexChars[ j * 2 ] = hexArray[ v >>> 4 ];
+            hexChars[ j * 2 + 1 ] = hexArray[ v & 0x0F ];
+        }
+        return new String( hexChars );
+    }
 
 }
 
