@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="MTH_RSSReader.jar" size="7590" download="eager" />
+    <jar href="MTH_RSSReader.jar" size="9680" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="MTH_RSSReader" >
     <param name="requiredFXVersion" value="8.0+"/>

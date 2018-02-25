@@ -7,16 +7,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400" prefWidth="640" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="mth_rssreader.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="400" prefWidth="640" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mth_rssreader.LoginController">
     <children>
         <Label layoutX="307.0" layoutY="22.0" minHeight="20" minWidth="40" text="Login">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-        <Button layoutX="224.0" layoutY="248.0" text="Confirm" onAction="#Authenticate"/>
+        <Button layoutX="224.0" layoutY="248.0" onAction="#Authenticate" text="Confirm" />
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <PasswordField alignment="CENTER" layoutX="256.0" layoutY="175.0" promptText="password" fx:id="si_pwd"/>
-      <TextField alignment="CENTER" layoutX="256.0" layoutY="137.0" promptText="mail" fx:id="si_mail"/>
-      <Button layoutX="324.0" layoutY="248.0" mnemonicParsing="false" onAction="#Go_to_signup" text="Don't have an account yet ?"/>
+      <PasswordField fx:id="si_pwd" alignment="CENTER" layoutX="256.0" layoutY="175.0" promptText="password" />
+      <TextField fx:id="si_mail" alignment="CENTER" layoutX="256.0" layoutY="137.0" promptText="mail" />
+      <Button layoutX="324.0" layoutY="248.0" mnemonicParsing="false" onAction="#Go_to_signup" text="Don't have an account yet ?" />
+      <TextField alignment="CENTER" layoutX="256.0" layoutY="95.0" promptText="Server location" fx:id="si_domain"/>
     </children>
 </AnchorPane>
