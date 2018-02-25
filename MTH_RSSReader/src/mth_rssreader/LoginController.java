@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.net.URLConnection; 
 import java.net.HttpURLConnection;
+import java.util.Objects;
 /**
  *
  * @author Boutet
@@ -42,6 +43,7 @@ public class LoginController implements Initializable {
     public URL url;
     public HttpURLConnection urlConnection;
     private ByteArrayOutputStream bo;
+    private User current;
     
         public int isConnected(){
         try 
@@ -66,6 +68,10 @@ public class LoginController implements Initializable {
         pwd = su_pwd.getText();
         domain = su_domain.getText();
         System.out.println(id + ", " + pwd + " et " + mail);
+        if (!mail.contains("@") || pwd.length() < 5){
+            label.setText("Usage : incorrect mail / password must contain at least 5 characters");
+            return;
+        }
         
         urlParameters = "/api/register?email="+mail+"&password="+pwd;
         
@@ -122,15 +128,15 @@ public class LoginController implements Initializable {
             urlConnection.setRequestProperty("accept", "text/html");
             urlConnection.setRequestProperty("charset", "ISO-8859-1");
             urlConnection.connect();
-            System.out.println(urlConnection.getResponseCode());
             response = readStream(urlConnection.getInputStream());
+//            current.setUserID(response);
             System.out.println(response);
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(response);
 
-       if (!response.equals(false)){
+       if (!Objects.equals(response, "false")){
             try {
                 root = FXMLLoader.load(getClass().getResource("Feeds.fxml"));
                 scene = new Scene(root);
