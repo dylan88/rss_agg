@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.net.URLConnection; 
 import java.net.HttpURLConnection;
+import java.util.Objects;
 /**
  *
  * @author Boutet
@@ -34,7 +35,7 @@ public class LoginController implements Initializable {
     @FXML
     private Label label;
     @FXML
-    private TextField su_mail, su_id, su_pwd, si_mail, si_pwd, si_domain;
+    private TextField su_mail, su_domain, su_pwd, si_mail, si_pwd, si_domain;
     private String mail, id, pwd, urlParameters, domain, response;
     Parent root;
     Scene scene;
@@ -42,6 +43,7 @@ public class LoginController implements Initializable {
     public URL url;
     public HttpURLConnection urlConnection;
     private ByteArrayOutputStream bo;
+    private User current;
     
         public int isConnected(){
         try 
@@ -64,8 +66,12 @@ public class LoginController implements Initializable {
     public void Register(ActionEvent event){
         mail = su_mail.getText();
         pwd = su_pwd.getText();
-        id = su_id.getText();
+        domain = su_domain.getText();
         System.out.println(id + ", " + pwd + " et " + mail);
+        if (!mail.contains("@") || pwd.length() < 5){
+            label.setText("Usage : incorrect mail / password must contain at least 5 characters");
+            return;
+        }
         
         urlParameters = "/api/register?email="+mail+"&password="+pwd;
         
@@ -122,30 +128,28 @@ public class LoginController implements Initializable {
             urlConnection.setRequestProperty("accept", "text/html");
             urlConnection.setRequestProperty("charset", "ISO-8859-1");
             urlConnection.connect();
-            System.out.println(urlConnection.getResponseCode());
             response = readStream(urlConnection.getInputStream());
+//            current.setUserID(response);
             System.out.println(response);
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(response);
 
-        //if (get("/login?email="+mail+"&password="+pwd) != -1 )
-           /* try {
+       if (!Objects.equals(response, "false")){
+            try {
                 root = FXMLLoader.load(getClass().getResource("Feeds.fxml"));
                 scene = new Scene(root);
                 mainstage = (Stage)  ((Node)event.getSource()).getScene().getWindow();
                 mainstage.setScene(scene);
                 mainstage.show();
-                //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
             } catch (IOException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        /*else
+            }}
+        else
         {
             label.setText("Sorry, we couldn't identify you. Please register or try again.");
-            Go_to_signin();
-        */
+}
     }
     
     private String readStream(InputStream is) {         
@@ -171,7 +175,6 @@ public class LoginController implements Initializable {
                 mainstage = (Stage)  ((Node)event.getSource()).getScene().getWindow();
                 mainstage.setScene(scene);
                 mainstage.show();
-                //envoyer mail et password, si retour ok ->charger flux RSS, sinon label = "bah non"
             } catch (IOException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }

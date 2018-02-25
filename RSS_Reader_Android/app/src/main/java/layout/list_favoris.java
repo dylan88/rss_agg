@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.wautel_l.rss_reader_android.Connectivity;
 import com.example.wautel_l.rss_reader_android.GetMethodDemo;
 import com.example.wautel_l.rss_reader_android.LocalService;
 import com.example.wautel_l.rss_reader_android.R;
@@ -126,31 +128,33 @@ public class list_favoris extends Fragment {
         art_string_list = new ArrayList<>();
         ip = this.getArguments().getString("ip");
         id_client = this.getArguments().getInt("id_client");
-        try {
+        if (Connectivity.isConnected(this.getActivity())) {
+            try {
                 GetMethodDemo getMethodDemo = new GetMethodDemo();
                 getMethodDemo.setContext(this.getContext());
                 getMethodDemo.setIp(ip);
-                getMethodDemo.seturl(ip + "/api/favoris?user_id="+id_client);
+                getMethodDemo.seturl("http://" + ip + ":8080/api/favoris?user_id=" + id_client);
                 String url_tmp = getMethodDemo.execute().get();
-            if (!url_tmp.equals("network error"))
-            {
-               // String url_tmp = mService.do_action("favlist_" + id_client);
-                JSONArray listArray = new JSONArray(url_tmp);
+                if (!url_tmp.equals("network error")) {
+                    // String url_tmp = mService.do_action("favlist_" + id_client);
+                    JSONArray listArray = new JSONArray(url_tmp);
 
-                JSONObject oneObject;
-                int i;
-                for (i = 0; i < listArray.length(); i++)
-                {
-                    oneObject = new JSONObject(listArray.getString(i));
-                    article_list.add(new Item(oneObject.getInt("item_id"), oneObject.getInt("feed_id"), oneObject.getString("title"), oneObject.getString("link"), oneObject.getInt("guid"), oneObject.getString("description"), oneObject.getInt("categorie_id"), oneObject.getInt("read")));
-                    art_string_list.add(oneObject.getString("title"));
+                    JSONObject oneObject;
+                    int i;
+                    for (i = 0; i < listArray.length(); i++) {
+                        oneObject = new JSONObject(listArray.getString(i));
+                        article_list.add(new Item(oneObject.getInt("item_id"), oneObject.getInt("feed_id"), oneObject.getString("title"), oneObject.getString("link"), oneObject.getInt("guid"), oneObject.getString("description"), oneObject.getInt("categorie_id"), oneObject.getInt("read")));
+                        art_string_list.add(oneObject.getString("title"));
+                    }
                 }
+            } catch (Exception e) {
+                Log.e("error", e.toString());
+                e.printStackTrace();
             }
         }
-        catch(Exception e)
-        {
-            Log.e("error", e.toString());
-            e.printStackTrace();
+        else{
+            Toast popup = Toast.makeText(this.getContext(), "Probleme de connexion", Toast.LENGTH_LONG);
+            popup.show();
         }
     }
 
