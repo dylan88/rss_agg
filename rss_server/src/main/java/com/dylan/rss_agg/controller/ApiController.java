@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dylan.rss_agg.model.Feed;
 import com.dylan.rss_agg.model.User;
 import com.dylan.rss_agg.service.UserService;
 
@@ -44,4 +45,12 @@ public class ApiController {
 	   return Integer.toString(user.getId());
 	}
 	
+	@RequestMapping(value = "/api/feed/add", method = RequestMethod.GET)
+	public @ResponseBody String addFeed(@RequestParam Map<String,String> requestParams) {
+	   String userId=requestParams.get("user_id");
+	   String url=requestParams.get("url");
+	   Feed feed = new Feed();
+	   feed.setUrl(url);
+	   return "true";
+	}
 }
