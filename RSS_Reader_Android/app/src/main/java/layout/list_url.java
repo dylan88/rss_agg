@@ -100,14 +100,16 @@ public class list_url extends Fragment {
             String url_tmp = getMethodDemo.execute().get();
                     // mService.connect(ip, "5000");
            // String url_tmp = mService.do_action("urllist_" + id_client);
-            JSONArray listArray = new JSONArray(url_tmp);
+            if (!url_tmp.equals("network error")) {
+                JSONArray listArray = new JSONArray(url_tmp);
 
-            JSONObject oneObject;
-            int i;
-            for (i = 0; i < listArray.length(); i++) {
-                oneObject = new JSONObject(listArray.getString(i));
-                url_list.add(new Url(oneObject.getInt("feed_id"), oneObject.getString("url")));
-                utl_name.add(oneObject.getString("url"));
+                JSONObject oneObject;
+                int i;
+                for (i = 0; i < listArray.length(); i++) {
+                    oneObject = new JSONObject(listArray.getString(i));
+                    url_list.add(new Url(oneObject.getInt("feed_id"), oneObject.getString("url")));
+                    utl_name.add(oneObject.getString("url"));
+                }
             }
         }
         catch(Exception e)

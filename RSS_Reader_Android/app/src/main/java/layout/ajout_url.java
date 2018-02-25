@@ -122,17 +122,17 @@ public class ajout_url extends Fragment {
         getMethodDemo.setContext(this.getContext());
         getMethodDemo.seturl(ip + "/add?user_id="+id_client+"&url="+uri.getText().toString());
         String response = getMethodDemo.execute().get();
-        //    mService.connect(ip, "5000");
-         //   String response = mService.do_action("add_" + id_client + "_" + uri.getText().toString());
-           // Log.e("response", response + "tr");
-            if (response.contains("true")) {
-                Toast popup = Toast.makeText(view.getContext(), "Ajout effectué avec succés", Toast.LENGTH_LONG);
-                popup.show();
-            }
-            else
-            {
-                Toast popup = Toast.makeText(view.getContext(), "Erreur durant le processus d'ajout", Toast.LENGTH_LONG);
-                popup.show();
+            if (!response.equals("network error")) {
+                //    mService.connect(ip, "5000");
+                //   String response = mService.do_action("add_" + id_client + "_" + uri.getText().toString());
+                // Log.e("response", response + "tr");
+                if (response.contains("true")) {
+                    Toast popup = Toast.makeText(view.getContext(), "Ajout effectué avec succés", Toast.LENGTH_LONG);
+                    popup.show();
+                } else {
+                    Toast popup = Toast.makeText(view.getContext(), "Erreur durant le processus d'ajout", Toast.LENGTH_LONG);
+                    popup.show();
+                }
             }
         }
         catch (Exception e)

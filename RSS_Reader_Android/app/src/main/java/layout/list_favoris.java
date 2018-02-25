@@ -132,15 +132,19 @@ public class list_favoris extends Fragment {
                 getMethodDemo.setIp(ip);
                 getMethodDemo.seturl(ip + "/favoris?user_id="+id_client);
                 String url_tmp = getMethodDemo.execute().get();
-           // String url_tmp = mService.do_action("favlist_" + id_client);
-            JSONArray listArray = new JSONArray(url_tmp);
+            if (!url_tmp.equals("network error"))
+            {
+               // String url_tmp = mService.do_action("favlist_" + id_client);
+                JSONArray listArray = new JSONArray(url_tmp);
 
-            JSONObject oneObject;
-            int i;
-            for (i = 0; i < listArray.length(); i++) {
-                oneObject = new JSONObject(listArray.getString(i));
-                article_list.add(new Item(oneObject.getInt("item_id"), oneObject.getInt("feed_id"), oneObject.getString("title"), oneObject.getString("link"), oneObject.getInt("guid"), oneObject.getString("description"), oneObject.getInt("categorie_id"), oneObject.getInt("read")));
-                art_string_list.add(oneObject.getString("title"));
+                JSONObject oneObject;
+                int i;
+                for (i = 0; i < listArray.length(); i++)
+                {
+                    oneObject = new JSONObject(listArray.getString(i));
+                    article_list.add(new Item(oneObject.getInt("item_id"), oneObject.getInt("feed_id"), oneObject.getString("title"), oneObject.getString("link"), oneObject.getInt("guid"), oneObject.getString("description"), oneObject.getInt("categorie_id"), oneObject.getInt("read")));
+                    art_string_list.add(oneObject.getString("title"));
+                }
             }
         }
         catch(Exception e)

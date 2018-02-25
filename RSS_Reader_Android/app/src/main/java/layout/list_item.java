@@ -90,17 +90,19 @@ public class list_item extends Fragment {
                 getMethodDemo.setIp(ip);
                 getMethodDemo.seturl(ip + "/item/all?user_id="+id_client);
                 String url_tmp = getMethodDemo.execute().get();
-            JSONArray listArray = new JSONArray(url_tmp);
+            if (!url_tmp.equals("network error")) {
+                JSONArray listArray = new JSONArray(url_tmp);
 
-            JSONObject oneObject;
-            itemDBOHelper.onUpgrade(sqLiteDatabase, 1, 1);
-            int i;
-            for (i = 0; i < listArray.length(); i++) {
-                oneObject = new JSONObject(listArray.getString(i));
-                Item tmp = new Item(oneObject.getInt("item_id"), oneObject.getInt("feed_id"), oneObject.getString("title"), oneObject.getString("link"), oneObject.getInt("guid"), oneObject.getString("description"), oneObject.getInt("categorie_id"), oneObject.getInt("read"));
-                article_list.add(tmp);
-                itemDBOHelper.addItem(sqLiteDatabase, tmp);
-                art_string_list.add(oneObject.getString("title"));
+                JSONObject oneObject;
+                itemDBOHelper.onUpgrade(sqLiteDatabase, 1, 1);
+                int i;
+                for (i = 0; i < listArray.length(); i++) {
+                    oneObject = new JSONObject(listArray.getString(i));
+                    Item tmp = new Item(oneObject.getInt("item_id"), oneObject.getInt("feed_id"), oneObject.getString("title"), oneObject.getString("link"), oneObject.getInt("guid"), oneObject.getString("description"), oneObject.getInt("categorie_id"), oneObject.getInt("read"));
+                    article_list.add(tmp);
+                    itemDBOHelper.addItem(sqLiteDatabase, tmp);
+                    art_string_list.add(oneObject.getString("title"));
+                }
             }
         }
         catch(Exception e)
