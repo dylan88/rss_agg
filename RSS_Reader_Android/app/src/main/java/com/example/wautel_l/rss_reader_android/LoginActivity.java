@@ -201,15 +201,20 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }, 1000);*/
             try {
-
-                GetMethodDemo getMethodDemo = new GetMethodDemo();
-                getMethodDemo.setContext(this);
-                getMethodDemo.setIp(ip);
-                getMethodDemo.seturl(ip + "/api/login?email=" + email + "&password=" + sha1Hash(password));
-                String tmp = getMethodDemo.execute().get();
-                if (!tmp.equals("network error"))
-                    access_next(tmp);
-            }
+                if (Connectivity.isConnected(this)) {
+                        GetMethodDemo getMethodDemo = new GetMethodDemo();
+                        getMethodDemo.setContext(this);
+                        getMethodDemo.setIp(ip);
+                        getMethodDemo.seturl("http://" + ip + ":8080/api/login?email=" + email + "&password=" + password);
+                        String tmp = getMethodDemo.execute().get();
+                        if (!tmp.equals("network error"))
+                            access_next(tmp);
+                    }
+                else{
+                    Toast popup = Toast.makeText(this, "Probleme de connexion", Toast.LENGTH_LONG);
+                    popup.show();
+                }
+                }
             catch (Exception e)
             {
                 e.printStackTrace();
@@ -285,28 +290,34 @@ public class LoginActivity extends AppCompatActivity {
           //      public void run() {
                  //   if (mBound) {
                       //  mService.connect(ip, "5000");
-                     GetMethodDemo getMethodDemo = new GetMethodDemo();
-                getMethodDemo.seturl(ip + "/api/register?email="+email+"&password="+sha1Hash(password));
-              //  getMethodDemo.setArg("name="+email+);
+            Log.e("connextio", Boolean.toString(Connectivity.isConnected(this)));
+            if (Connectivity.isConnected(this)) {
+                GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.seturl("http://"+ ip + ":8080/api/register?email=" + email + "&password=" + password);
+                //  getMethodDemo.setArg("name="+email+);
 
-            try {
-                getMethodDemo.setContext(this);
-                getMethodDemo.setIp(ip);
-                String response = getMethodDemo.execute().get();
-                if (!response.isEmpty() && !response.equals("-1")) {
-                    Integer id_client = Integer.parseInt(recupValidNumber(response));
-                    Intent intent = new Intent(LoginActivity.this, Activity_all.class);
-                    intent.putExtra("ip", ip);
-                    intent.putExtra("id_client", id_client);
-                    startActivity(intent);
-                } else {
-                    Toast popup = Toast.makeText(view.getContext(), "Error dans le login ou le mot de passe", Toast.LENGTH_LONG);
-                    popup.show();
+                try {
+                    getMethodDemo.setContext(this);
+                    getMethodDemo.setIp(ip);
+                    String response = getMethodDemo.execute().get();
+                    Log.e("response", response);
+                    if (!response.isEmpty() && !response.equals("-1")) {
+                        Integer id_client = Integer.parseInt(recupValidNumber(response));
+                        Intent intent = new Intent(LoginActivity.this, Activity_all.class);
+                        intent.putExtra("ip", ip);
+                        intent.putExtra("id_client", id_client);
+                        startActivity(intent);
+                    } else {
+                        Toast popup = Toast.makeText(view.getContext(), "Error dans le login ou le mot de passe", Toast.LENGTH_LONG);
+                        popup.show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-            catch (Exception e)
-            {
-                e.printStackTrace();
+            else{
+                Toast popup = Toast.makeText(this, "Probleme de connexion", Toast.LENGTH_LONG);
+                popup.show();
             }
               //      }
             //    }

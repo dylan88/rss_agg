@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.wautel_l.rss_reader_android.Connectivity;
 import com.example.wautel_l.rss_reader_android.GetMethodDemo;
 import com.example.wautel_l.rss_reader_android.LocalService;
 import com.example.wautel_l.rss_reader_android.R;
@@ -92,31 +94,36 @@ public class list_url extends Fragment {
         utl_name = new ArrayList<>();
         ip = this.getArguments().getString("ip");
         id_client = this.getArguments().getInt("id_client");
-        try {
-            GetMethodDemo getMethodDemo = new GetMethodDemo();
-            getMethodDemo.setIp(ip);
-            getMethodDemo.setContext(this.getContext());
-            getMethodDemo.seturl(ip + "/api/feed/all?user_id="+id_client);
-            String url_tmp = getMethodDemo.execute().get();
-                    // mService.connect(ip, "5000");
-           // String url_tmp = mService.do_action("urllist_" + id_client);
-            if (!url_tmp.equals("network error")) {
-                JSONArray listArray = new JSONArray(url_tmp);
+        if (Connectivity.isConnected(this.getActivity())) {
+            try {
+                GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.setIp(ip);
+                getMethodDemo.setContext(this.getContext());
+                getMethodDemo.seturl("http://" + ip + ":8080/api/feed/all?user_id=" + id_client);
+                String url_tmp = getMethodDemo.execute().get();
+                // mService.connect(ip, "5000");
+                // String url_tmp = mService.do_action("urllist_" + id_client);
+                if (!url_tmp.equals("network error")) {
+                    JSONArray listArray = new JSONArray(url_tmp);
 
-                JSONObject oneObject;
-                int i;
-                for (i = 0; i < listArray.length(); i++) {
-                    oneObject = new JSONObject(listArray.getString(i));
-                    url_list.add(new Url(oneObject.getInt("feed_id"), oneObject.getString("url")));
-                    utl_name.add(oneObject.getString("url"));
+                    JSONObject oneObject;
+                    int i;
+                    for (i = 0; i < listArray.length(); i++) {
+                        oneObject = new JSONObject(listArray.getString(i));
+                        url_list.add(new Url(oneObject.getInt("feed_id"), oneObject.getString("url")));
+                        utl_name.add(oneObject.getString("url"));
+                    }
                 }
-            }
-        }
-        catch(Exception e)
-            {
+            } catch (Exception e) {
                 Log.e("error", e.toString());
                 e.printStackTrace();
             }
+
+        }
+        else{
+            Toast popup = Toast.makeText(this.getContext(), "Probleme de connexion", Toast.LENGTH_LONG);
+            popup.show();
+        }
     }
 
     @Override

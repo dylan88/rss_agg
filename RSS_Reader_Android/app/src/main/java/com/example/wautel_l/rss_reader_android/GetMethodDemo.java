@@ -45,7 +45,7 @@ public class GetMethodDemo extends AsyncTask<String , Void ,String> {
     }
 
     public void setIp(String ip) {
-        this.ip = ip;
+        this.ip =  ip + ":8080";
     }
 
     public void seturl(String uri)
@@ -69,7 +69,7 @@ public class GetMethodDemo extends AsyncTask<String , Void ,String> {
         URL url;
         HttpURLConnection urlConnection = null;
 
-        try{
+/*        try{
             if (!InetAddress.getByName(this.ip).isReachable(30))
                 return "network error";
         } catch (UnknownHostException e)
@@ -78,30 +78,34 @@ public class GetMethodDemo extends AsyncTask<String , Void ,String> {
         } catch(IOException e)
         {
             return "network error";
-        }
+        }*/
 
         try {
+            Log.e("test", "tes");
             url = new URL(getUrl());
+            Log.e("url", url.toString());
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setDoOutput(true);
-            urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("GET");
-
+            urlConnection.setRequestProperty("charset", "ISO-8859-1");
+            urlConnection.setRequestProperty("accept", "text/html");
 
 
             urlConnection.connect();
 
             int responseCode = urlConnection.getResponseCode();
+            Log.e("code", Integer.toString(responseCode));
 
             if(responseCode == HttpURLConnection.HTTP_OK){
                 server_response = readStream(urlConnection.getInputStream());
                 Log.e("CatalogClient", server_response);
             }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (MalformedURLException exc) {
+            Log.e("exc","toto", exc);
+            exc.printStackTrace();
+        } catch (IOException exc) {
+            Log.e("exc", "toto", exc);
+            exc.printStackTrace();
         }
 
         return server_response;
@@ -111,10 +115,6 @@ public class GetMethodDemo extends AsyncTask<String , Void ,String> {
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
-        if (s.equals("network error")) {
-            Toast popup = Toast.makeText(context, "Probleme de connexion", Toast.LENGTH_LONG);
-            popup.show();
-        }
 
 
     }

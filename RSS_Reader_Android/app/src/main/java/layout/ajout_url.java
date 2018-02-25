@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.wautel_l.rss_reader_android.Activity_all;
+import com.example.wautel_l.rss_reader_android.Connectivity;
 import com.example.wautel_l.rss_reader_android.GetMethodDemo;
 import com.example.wautel_l.rss_reader_android.LocalService;
 import com.example.wautel_l.rss_reader_android.LoginActivity;
@@ -116,28 +117,32 @@ public class ajout_url extends Fragment {
     public void ajout_url()
     {
      //   if (mBound) {
-        try {
-        GetMethodDemo getMethodDemo = new GetMethodDemo();
-        getMethodDemo.setIp(ip);
-        getMethodDemo.setContext(this.getContext());
-        getMethodDemo.seturl(ip + "/api/feed/add?user_id="+id_client+"&url="+uri.getText().toString());
-        String response = getMethodDemo.execute().get();
-            if (!response.equals("network error")) {
-                //    mService.connect(ip, "5000");
-                //   String response = mService.do_action("add_" + id_client + "_" + uri.getText().toString());
-                // Log.e("response", response + "tr");
-                if (response.contains("true")) {
-                    Toast popup = Toast.makeText(view.getContext(), "Ajout effectué avec succés", Toast.LENGTH_LONG);
-                    popup.show();
-                } else {
-                    Toast popup = Toast.makeText(view.getContext(), "Erreur durant le processus d'ajout", Toast.LENGTH_LONG);
-                    popup.show();
+        if (Connectivity.isConnected(this.getActivity())) {
+            try {
+                GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.setIp(ip);
+                getMethodDemo.setContext(this.getContext());
+                getMethodDemo.seturl("http://" + ip + ":8080/api/feed/add?user_id=" + id_client + "&url=" + uri.getText().toString());
+                String response = getMethodDemo.execute().get();
+                if (!response.equals("network error")) {
+                    //    mService.connect(ip, "5000");
+                    //   String response = mService.do_action("add_" + id_client + "_" + uri.getText().toString());
+                    // Log.e("response", response + "tr");
+                    if (response.contains("true")) {
+                        Toast popup = Toast.makeText(view.getContext(), "Ajout effectué avec succés", Toast.LENGTH_LONG);
+                        popup.show();
+                    } else {
+                        Toast popup = Toast.makeText(view.getContext(), "Erreur durant le processus d'ajout", Toast.LENGTH_LONG);
+                        popup.show();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        else{
+            Toast popup = Toast.makeText(this.getContext(), "Probleme de connexion", Toast.LENGTH_LONG);
+            popup.show();
         }
     }
 

@@ -39,7 +39,7 @@ public class LocalService extends Service {
     protected boolean isCo = false;
     protected Socket socket;
     public  String SERVER_IP = "192.168.1.20";
-    public int SERVER_PORT = 9999;
+    public int SERVER_PORT = 8080;
     protected InetAddress serverAddr;
     private MyCo local_co = new MyCo();
     protected String response;
