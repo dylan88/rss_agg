@@ -32,4 +32,16 @@ public class ApiController {
 	   userService.saveUser(user);
 	   return Integer.toString(user.getId());
 	}
+	
+	@RequestMapping(value = "/api/login", method = RequestMethod.GET)
+	public @ResponseBody String login(@RequestParam Map<String,String> requestParams) {
+	   String userName=requestParams.get("email");
+	   String password=requestParams.get("password");
+	   User user = userService.findUserByEmail(userName);
+	   if (user == null) {
+		   return "false";
+	   }
+	   return Integer.toString(user.getId());
+	}
+	
 }
