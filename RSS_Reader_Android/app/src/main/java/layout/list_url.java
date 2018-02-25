@@ -96,7 +96,7 @@ public class list_url extends Fragment {
             GetMethodDemo getMethodDemo = new GetMethodDemo();
             getMethodDemo.setIp(ip);
             getMethodDemo.setContext(this.getContext());
-            getMethodDemo.seturl(ip + "/feed/all?user_id="+id_client);
+            getMethodDemo.seturl(ip + "/api/feed/all?user_id="+id_client);
             String url_tmp = getMethodDemo.execute().get();
                     // mService.connect(ip, "5000");
            // String url_tmp = mService.do_action("urllist_" + id_client);

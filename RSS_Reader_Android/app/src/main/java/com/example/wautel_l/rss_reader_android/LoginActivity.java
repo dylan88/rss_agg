@@ -205,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                 GetMethodDemo getMethodDemo = new GetMethodDemo();
                 getMethodDemo.setContext(this);
                 getMethodDemo.setIp(ip);
-                getMethodDemo.seturl(ip + "/login?name=" + email + "&pwd=" + sha1Hash(password));
+                getMethodDemo.seturl(ip + "/api/login?email=" + email + "&password=" + sha1Hash(password));
                 String tmp = getMethodDemo.execute().get();
                 if (!tmp.equals("network error"))
                     access_next(tmp);
@@ -286,7 +286,7 @@ public class LoginActivity extends AppCompatActivity {
                  //   if (mBound) {
                       //  mService.connect(ip, "5000");
                      GetMethodDemo getMethodDemo = new GetMethodDemo();
-                getMethodDemo.seturl(ip + "/register?name="+email+"&pwd="+sha1Hash(password));
+                getMethodDemo.seturl(ip + "/api/register?email="+email+"&password="+sha1Hash(password));
               //  getMethodDemo.setArg("name="+email+);
 
             try {

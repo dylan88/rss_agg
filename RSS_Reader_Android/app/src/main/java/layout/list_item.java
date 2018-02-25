@@ -88,7 +88,7 @@ public class list_item extends Fragment {
                 GetMethodDemo getMethodDemo = new GetMethodDemo();
                 getMethodDemo.setContext(this.getContext());
                 getMethodDemo.setIp(ip);
-                getMethodDemo.seturl(ip + "/item/all?user_id="+id_client);
+                getMethodDemo.seturl(ip + "/api/item/all?user_id="+id_client);
                 String url_tmp = getMethodDemo.execute().get();
             if (!url_tmp.equals("network error")) {
                 JSONArray listArray = new JSONArray(url_tmp);

@@ -130,7 +130,7 @@ public class list_favoris extends Fragment {
                 GetMethodDemo getMethodDemo = new GetMethodDemo();
                 getMethodDemo.setContext(this.getContext());
                 getMethodDemo.setIp(ip);
-                getMethodDemo.seturl(ip + "/favoris?user_id="+id_client);
+                getMethodDemo.seturl(ip + "/api/favoris?user_id="+id_client);
                 String url_tmp = getMethodDemo.execute().get();
             if (!url_tmp.equals("network error"))
             {
