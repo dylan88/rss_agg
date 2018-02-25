@@ -7,17 +7,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="mth_rssreader.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mth_rssreader.LoginController">
         <children>
         <Label layoutX="289.0" layoutY="22.0" minHeight="20" minWidth="40" text="Register" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-        <Button id="signup_ok_btn" layoutX="224.0" layoutY="248.0" text="Confirm" onAction="#Register"/>
+        <Button id="signup_ok_btn" layoutX="224.0" layoutY="248.0" onAction="#Register" text="Confirm" />
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <PasswordField alignment="CENTER" layoutX="256.0" layoutY="175.0" promptText="password" fx:id="su_pwd"/>
-      <TextField alignment="CENTER" layoutX="256.0" layoutY="137.0" promptText="mail" fx:id="su_mail"/>
+      <PasswordField fx:id="su_pwd" alignment="CENTER" layoutX="256.0" layoutY="175.0" promptText="password" />
+      <TextField fx:id="su_mail" alignment="CENTER" layoutX="256.0" layoutY="137.0" promptText="mail" />
       <Button id="signin_page_btn" layoutX="324.0" layoutY="248.0" mnemonicParsing="false" onAction="#Go_to_signin" text="Already have an account ?" textAlignment="RIGHT" />
-      <TextField alignment="CENTER" layoutX="256.0" layoutY="95.0" promptText="Id" fx:id="su_id" />
+      <TextField fx:id="su_domain" alignment="CENTER" layoutX="256.0" layoutY="95.0" promptText="Server Location " />
     </children>
 </AnchorPane>
