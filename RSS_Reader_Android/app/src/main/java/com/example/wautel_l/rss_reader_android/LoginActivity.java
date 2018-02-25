@@ -225,7 +225,7 @@ public class LoginActivity extends AppCompatActivity {
     public void access_next(String response)
     {
         Log.e("response", response);
-        if (!response.isEmpty() && !response.equals("-1") )
+        if (!response.isEmpty() && !response.equals("false") )
         {
             Integer id_client = Integer.parseInt(recupValidNumber(response));
             Intent intent = new Intent(LoginActivity.this, Activity_all.class);
@@ -301,7 +301,7 @@ public class LoginActivity extends AppCompatActivity {
                     getMethodDemo.setIp(ip);
                     String response = getMethodDemo.execute().get();
                     Log.e("response", response);
-                    if (!response.isEmpty() && !response.equals("-1")) {
+                    if (!response.isEmpty() && !response.equals("false")) {
                         Integer id_client = Integer.parseInt(recupValidNumber(response));
                         Intent intent = new Intent(LoginActivity.this, Activity_all.class);
                         intent.putExtra("ip", ip);
