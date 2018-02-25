@@ -94,7 +94,9 @@ public class list_url extends Fragment {
         id_client = this.getArguments().getInt("id_client");
         try {
             GetMethodDemo getMethodDemo = new GetMethodDemo();
-           getMethodDemo.seturl(ip + "/feed/all?user_id="+id_client);
+            getMethodDemo.setIp(ip);
+            getMethodDemo.setContext(this.getContext());
+            getMethodDemo.seturl(ip + "/feed/all?user_id="+id_client);
             String url_tmp = getMethodDemo.execute().get();
                     // mService.connect(ip, "5000");
            // String url_tmp = mService.do_action("urllist_" + id_client);

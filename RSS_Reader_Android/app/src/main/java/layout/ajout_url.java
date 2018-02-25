@@ -118,6 +118,8 @@ public class ajout_url extends Fragment {
      //   if (mBound) {
         try {
         GetMethodDemo getMethodDemo = new GetMethodDemo();
+        getMethodDemo.setIp(ip);
+        getMethodDemo.setContext(this.getContext());
         getMethodDemo.seturl(ip + "/add?user_id="+id_client+"&url="+uri.getText().toString());
         String response = getMethodDemo.execute().get();
         //    mService.connect(ip, "5000");

@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -21,6 +22,7 @@ import com.example.wautel_l.rss_reader_android.LocalService;
 import com.example.wautel_l.rss_reader_android.R;
 import com.example.wautel_l.rss_reader_android.Detail_item;
 import com.example.wautel_l.rss_reader_android.obj.Item;
+import com.example.wautel_l.rss_reader_android.obj.ItemDBOHelper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,6 +55,8 @@ public class list_item extends Fragment {
     private ListView lv;
     private Intent intent;
     private boolean mBound = false;
+    private SQLiteDatabase sqLiteDatabase;
+    private ItemDBOHelper itemDBOHelper;
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,15 +86,20 @@ public class list_item extends Fragment {
         id_client = this.getArguments().getInt("id_client");
         try {
                 GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.setContext(this.getContext());
+                getMethodDemo.setIp(ip);
                 getMethodDemo.seturl(ip + "/item/all?user_id="+id_client);
                 String url_tmp = getMethodDemo.execute().get();
             JSONArray listArray = new JSONArray(url_tmp);
 
             JSONObject oneObject;
+            itemDBOHelper.onUpgrade(sqLiteDatabase, 1, 1);
             int i;
             for (i = 0; i < listArray.length(); i++) {
                 oneObject = new JSONObject(listArray.getString(i));
-                article_list.add(new Item(oneObject.getInt("item_id"), oneObject.getInt("feed_id"), oneObject.getString("title"), oneObject.getString("link"), oneObject.getInt("guid"), oneObject.getString("description"), oneObject.getInt("categorie_id"), oneObject.getInt("read")));
+                Item tmp = new Item(oneObject.getInt("item_id"), oneObject.getInt("feed_id"), oneObject.getString("title"), oneObject.getString("link"), oneObject.getInt("guid"), oneObject.getString("description"), oneObject.getInt("categorie_id"), oneObject.getInt("read"));
+                article_list.add(tmp);
+                itemDBOHelper.addItem(sqLiteDatabase, tmp);
                 art_string_list.add(oneObject.getString("title"));
             }
         }
@@ -115,6 +124,8 @@ public class list_item extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list_url, container, false);
         lv = (ListView) view.findViewById(R.id.listView);
+        itemDBOHelper = new ItemDBOHelper(this.getContext(), "item.db", null, 1);
+        sqLiteDatabase = itemDBOHelper.getWritableDatabase();
      /*   intent = new Intent(getActivity(), LocalService.class);
         getActivity().getApplicationContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         Handler handler = new Handler();

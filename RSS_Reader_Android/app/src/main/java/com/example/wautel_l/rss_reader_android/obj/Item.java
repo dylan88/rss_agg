@@ -96,4 +96,20 @@ public class Item {
     public void setCategorie_id(int categorie_id) {
         this.categorie_id = categorie_id;
     }
+
+    public int getRead() {
+        return read;
+    }
+
+    public void setRead(int read) {
+        this.read = read;
+    }
+
+    public int getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
+    }
 }

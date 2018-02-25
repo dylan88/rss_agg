@@ -1,7 +1,11 @@
 package com.example.wautel_l.rss_reader_android;
 
+import android.app.Application;
+import android.content.ContentValues;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -13,16 +17,36 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
+
 /**
  * Created by wautel_l on 24/02/2018.
  */
 public class GetMethodDemo extends AsyncTask<String , Void ,String> {
     String server_response;
     String url;
+    String ip;
     JSONObject arg;
+    Context context;
 
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     public void seturl(String uri)
     {
@@ -44,6 +68,17 @@ public class GetMethodDemo extends AsyncTask<String , Void ,String> {
 
         URL url;
         HttpURLConnection urlConnection = null;
+
+        try{
+            if (!InetAddress.getByName(this.ip).isReachable(30))
+                return "network error";
+        } catch (UnknownHostException e)
+        {
+            return "network error";
+        } catch(IOException e)
+        {
+            return "network error";
+        }
 
         try {
             url = new URL(getUrl());
@@ -74,9 +109,12 @@ public class GetMethodDemo extends AsyncTask<String , Void ,String> {
 
     @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
 
-        Log.e("Response", "" + server_response);
+        super.onPostExecute(s);
+        if (s.equals("network error")) {
+            Toast popup = Toast.makeText(context, "Probleme de connexion", Toast.LENGTH_LONG);
+            popup.show();
+        }
 
 
     }

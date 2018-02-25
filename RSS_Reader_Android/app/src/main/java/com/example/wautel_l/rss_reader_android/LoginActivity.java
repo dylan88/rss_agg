@@ -201,8 +201,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }, 1000);*/
             try {
+
                 GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.setContext(this);
+                getMethodDemo.setIp(ip);
                 getMethodDemo.seturl(ip + "/login?name=" + email + "&pwd=" + sha1Hash(password));
+                String tmp = getMethodDemo.execute().get();
+                if (!tmp.equals("network error"))
+                    access_next(tmp);
             }
             catch (Exception e)
             {
@@ -284,6 +290,8 @@ public class LoginActivity extends AppCompatActivity {
               //  getMethodDemo.setArg("name="+email+);
 
             try {
+                getMethodDemo.setContext(this);
+                getMethodDemo.setIp(ip);
                 String response = getMethodDemo.execute().get();
                 if (!response.isEmpty() && !response.equals("-1")) {
                     Integer id_client = Integer.parseInt(recupValidNumber(response));

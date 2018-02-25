@@ -128,6 +128,8 @@ public class list_favoris extends Fragment {
         id_client = this.getArguments().getInt("id_client");
         try {
                 GetMethodDemo getMethodDemo = new GetMethodDemo();
+                getMethodDemo.setContext(this.getContext());
+                getMethodDemo.setIp(ip);
                 getMethodDemo.seturl(ip + "/favoris?user_id="+id_client);
                 String url_tmp = getMethodDemo.execute().get();
            // String url_tmp = mService.do_action("favlist_" + id_client);
