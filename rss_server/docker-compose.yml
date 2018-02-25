@@ -1,0 +1,19 @@
+app:
+  build: .
+  container_name: rss_agg
+  ports:
+    - "8080:8080"
+  links:
+    - database
+    
+database:
+  image: mysql
+  restart: always
+  volumes:
+    - db:/var/lib/mysql
+  container_name: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: rss_agg
+    MYSQL_USERNAME: root
+    MYSQL_PASSWORD: root
